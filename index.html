@@ -3,113 +3,273 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¡Feliz cumpleaños! |-/</title>
+<title>Feliz cumpleaños |-/</title>
+<link rel="icon" type="image/jpeg" href="your%20yellow%20flowers%20by%20Twenty%20one%20pilots.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
+  /* Estilo inspirado en la página de Twenty One Pilots (era Breach) */
+  :root {
+    --rojo: #db2422;
+    --negro: #000;
+    --amarillo: #f2e600;
+    --gris: #231f20;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     min-height: 100vh;
-    overflow: hidden;
-    background: #111;
-    color: #fce300;
-    font-family: "Trebuchet MS", Arial, sans-serif;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background: var(--negro);
+    color: var(--rojo);
+    font-family: "Martian Mono", "Courier New", monospace;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Grano tipo película encima de todo */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: .12;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+
+  main {
+    position: relative;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    padding: 28px 14px 40px;
   }
-  .card { position: relative; z-index: 1; padding: 20px; }
-  .logo { font-size: 2.2rem; font-weight: bold; color: #e11; letter-spacing: 4px; }
-  h1 {
-    font-size: clamp(2.4rem, 8vw, 5rem);
-    margin: 10px 0 30px;
-    text-shadow: 4px 4px 0 #e11;
-  }
-  p.pregunta { font-size: 1.6rem; color: #fff; margin-bottom: 25px; }
 
-  button {
-    font-size: 1.4rem;
-    font-weight: bold;
-    padding: .4em 1.2em;
-    border: 3px solid #fce300;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform .15s, font-size .2s;
+  /* Resplandor rojo difuminado de fondo (como la portada) */
+  .resplandor {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    width: min(140vw, 1100px);
+    aspect-ratio: 1.2;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, #ff3b30 0%, rgba(219, 36, 34, .75) 30%, rgba(219, 36, 34, .25) 55%, transparent 72%);
+    filter: blur(30px);
+    z-index: 0;
+    animation: respirar 5s ease-in-out infinite;
+    pointer-events: none;
   }
-  .foto {
-    display: block;
-    margin: 0 auto 15px;
-    max-width: min(85vw, 380px);
-    max-height: 40vh;
-    border-radius: 12px;
-    border: 4px solid #fce300;
-    box-shadow: 6px 6px 0 #e11;
+  @keyframes respirar {
+    50% { opacity: .7; transform: translate(-50%, -50%) scale(1.08); }
   }
-  .galeria { display: flex; gap: 14px; justify-content: center; margin-bottom: 15px; }
+
+  .seccion {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 760px);
+    text-align: center;
+    animation: entrar .6s ease-out both;
+  }
+  @keyframes entrar {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Etiqueta amarilla tipo "SELLING FAST" */
+  .etiqueta {
+    display: inline-block;
+    background: var(--amarillo);
+    color: var(--negro);
+    font-weight: 600;
+    font-size: .72rem;
+    letter-spacing: .14em;
+    padding: 5px 10px;
+  }
+
+  /* Fotos cuadradas, como las del merch */
+  .galeria {
+    display: flex;
+    justify-content: center;
+    gap: clamp(8px, 2.5vw, 20px);
+    margin-bottom: 26px;
+  }
+  .item { position: relative; }
+  .item .etiqueta {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: clamp(.5rem, 1.6vw, .68rem);
+    z-index: 2;
+  }
   .galeria .foto {
-    margin: 0;
-    width: min(27vw, 190px, 26vh);
+    display: block;
+    width: min(27vw, 190px, 24vh);
     aspect-ratio: 1;
     object-fit: cover;
-    border-width: 3px;
-    box-shadow: 4px 4px 0 #e11;
+    filter: saturate(.85) contrast(1.1);
+    box-shadow: 0 0 0 2px var(--negro), 0 18px 40px rgba(0, 0, 0, .7);
+    transition: transform .25s, filter .25s;
   }
-  .galeria .foto:nth-child(1) { transform: rotate(-4deg); }
-  .galeria .foto:nth-child(3) { transform: rotate(4deg); }
-  #regalo .foto { max-height: 60vh; max-width: min(90vw, 450px); }
+  .galeria .foto:hover { transform: scale(1.06); filter: none; }
+
+  /* Recuadro negro como el de "BREACH / AVAILABLE NOW" */
+  .caja {
+    background: var(--negro);
+    padding: clamp(22px, 5vw, 40px) clamp(16px, 4vw, 40px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, .6);
+  }
+  .logo {
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: .3em;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-weight: 800;
+    font-size: clamp(1.5rem, 6.4vw, 3.4rem);
+    line-height: 1.1;
+    letter-spacing: .04em;
+    word-break: break-word;
+    margin-bottom: 14px;
+  }
+  .pregunta {
+    font-weight: 600;
+    font-size: clamp(.85rem, 2.8vw, 1.15rem);
+    letter-spacing: .14em;
+    margin-bottom: 26px;
+  }
+
+  .botones { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
+  button {
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 800;
+    font-size: 1.4rem;
+    padding: .35em 1.3em;
+    border: 3px solid var(--rojo);
+    border-radius: 0;
+    cursor: pointer;
+    transition: font-size .25s, background .15s, color .15s, transform .15s;
+  }
+  #si { background: var(--rojo); color: var(--negro); }
+  #si:hover { background: var(--negro); color: var(--rojo); }
+  #no { background: var(--negro); color: var(--rojo); }
+  #no:hover { background: var(--rojo); color: var(--negro); }
+  #no.adios, #no.suelto.adios { opacity: 0; transform: scale(0) rotate(90deg); transition: opacity .4s, transform .4s; pointer-events: none; }
+  #no.suelto { position: fixed; z-index: 20; transition: left .25s ease, top .25s ease, background .15s, color .15s; }
+
   .falta {
-    margin: 0 auto 15px;
-    padding: 30px 20px;
-    max-width: 320px;
-    border: 3px dashed #fce300;
-    border-radius: 12px;
+    width: min(27vw, 190px);
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px;
+    border: 2px dashed var(--rojo);
+    font-size: .6rem;
+  }
+
+  /* Pantalla del regalo */
+  #regalo { display: none; }
+  #regalo .marco { position: relative; display: inline-block; margin-bottom: -6px; }
+  #regalo .marco .etiqueta { position: absolute; top: 12px; left: 12px; z-index: 2; }
+  #regalo .foto {
+    display: block;
+    max-width: min(86vw, 420px);
+    max-height: 46vh;
+    filter: contrast(1.05);
+    animation: revelar 1s ease-out both;
+  }
+  @keyframes revelar {
+    from { opacity: 0; filter: blur(14px) brightness(2); transform: scale(1.05); }
+    to   { opacity: 1; filter: contrast(1.05); transform: none; }
+  }
+  #regalo .caja { max-width: 620px; margin: 0 auto; }
+  #regalo h2 {
+    font-weight: 800;
+    font-size: clamp(1.8rem, 7vw, 3rem);
+    letter-spacing: .1em;
+    margin-bottom: 12px;
+  }
+  #regalo p {
+    font-weight: 400;
+    font-size: clamp(.72rem, 2.3vw, .92rem);
+    line-height: 1.8;
+    letter-spacing: .08em;
     color: #fff;
   }
-  #si { background: #fce300; color: #111; margin-right: 15px; }
-  #si:hover { transform: scale(1.1); }
-  #no { background: #e11; color: #fff; border-color: #e11; }
-  #no.suelto { position: fixed; z-index: 5; transition: left .2s, top .2s; }
-
-  #regalo { display: none; }
-  #regalo h2 { font-size: 2rem; margin-top: 10px; text-shadow: 3px 3px 0 #e11; }
-  #regalo p { color: #fff; font-size: 1.2rem; margin-top: 8px; }
 
   .confeti {
-    position: fixed; top: -20px; width: 10px; height: 16px; z-index: 10;
+    position: fixed; top: -20px; z-index: 30;
+    pointer-events: none;
     animation: caer linear forwards;
   }
-  @keyframes caer { to { transform: translateY(110vh) rotate(720deg); } }
+  @keyframes caer { to { transform: translateY(110vh) rotate(540deg); } }
+
+  @media (max-width: 480px) {
+    button { font-size: 1.15rem; }
+    .logo { font-size: 1.1rem; }
+  }
 </style>
 <script>
-  // Si todavía no está la foto, muestra un aviso con el nombre que debe tener
+  // Si no encuentra la foto, muestra un aviso con el nombre que debe tener
   function sinFoto(img, nombre) {
     const aviso = document.createElement('div');
     aviso.className = 'falta';
-    aviso.textContent = 'Aquí va tu foto: guárdala como ' + nombre + ' junto a este archivo';
+    aviso.textContent = 'Falta la foto: ' + nombre;
     img.replaceWith(aviso);
   }
 </script>
 </head>
 <body>
 
-<div class="card" id="inicio">
-  <!-- Fotos del principio (en esta misma carpeta de Descargas) -->
-  <div class="galeria">
-    <img class="foto" src="joshler.jpg" alt="" onerror="sinFoto(this, 'joshler.jpg')">
-    <img class="foto" src="josh%20dun.jpg" alt="" onerror="sinFoto(this, 'josh dun.jpg')">
-    <img class="foto" src="descarga.jpg" alt="" onerror="sinFoto(this, 'descarga.jpg')">
-  </div>
-  <div class="logo">|-/</div>
-  <h1>Feliz cumpleañoooooos</h1>
-  <p class="pregunta">Quieres ver tu regalo?</p>
-  <button id="si">Sí</button>
-  <button id="no">No</button>
-</div>
+<div class="resplandor"></div>
 
-<div class="card" id="regalo">
-  <img class="foto" src="your%20yellow%20flowers%20by%20Twenty%20one%20pilots.jpg" alt="" onerror="sinFoto(this, 'your yellow flowers by Twenty one pilots.jpg')">
-  <h2>OAOAOAOA</h2>
-  <p>Que tengas un feliz cumpleaños Mafeeeer, que cumpla años la cumpleañera que hoy cumple años que hoy es su cumpleaños y que mas va a hacer que cumplir años</p>
-</div>
+<main>
+  <div class="seccion" id="inicio">
+    <!-- Fotos del principio (en esta misma carpeta de Descargas) -->
+    <div class="galeria">
+      <div class="item">
+        <img class="foto" src="joshler.jpg" alt="" onerror="sinFoto(this, 'joshler.jpg')">
+      </div>
+      <div class="item">
+        <span class="etiqueta">Edición limitada</span>
+        <img class="foto" src="josh%20dun.jpg" alt="" onerror="sinFoto(this, 'josh dun.jpg')">
+      </div>
+      <div class="item">
+        <img class="foto" src="descarga.jpg" alt="" onerror="sinFoto(this, 'descarga.jpg')">
+      </div>
+    </div>
+
+    <div class="caja">
+      <div class="logo">|-/</div>
+      <h1>Feliz cumpleañoooooos</h1>
+      <p class="pregunta">Quieres ver tu regalo?</p>
+      <div class="botones">
+        <button id="si">Sí</button>
+        <button id="no">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion" id="regalo">
+    <div class="marco">
+      <span class="etiqueta">Solo para ti</span>
+      <img class="foto" src="your%20yellow%20flowers%20by%20Twenty%20one%20pilots.jpg" alt="" onerror="sinFoto(this, 'your yellow flowers by Twenty one pilots.jpg')">
+    </div>
+    <div class="caja">
+      <h2>OAOAOAOA</h2>
+      <p>Que tengas un Feliz Cumpleaños Mafeeeer, que cumpla años la cumpleañera que hoy cumple años que hoy es su cumpleaños y que mas va a hacer que cumplir años</p>
+    </div>
+  </div>
+</main>
 
 <script>
   const si = document.getElementById('si');
@@ -117,8 +277,16 @@
   const frases = ['¿Segura?', 'Piénsalo bien', 'Nop', 'Intenta otra vez', 'Ese no', 'Dale al otro', 'No se vale'];
   let veces = 0;
 
+  // Cada "No" mueve el botón a otro lugar y hace más grande el "Sí".
+  // Al 5º intento el "No" desaparece y solo queda el "Sí".
   no.addEventListener('click', () => {
     veces++;
+    if (veces >= 5) {
+      no.classList.add('adios');
+      setTimeout(() => no.remove(), 400);
+      si.style.fontSize = '3.2rem';
+      return;
+    }
     no.classList.add('suelto');
     const x = Math.random() * (window.innerWidth - no.offsetWidth);
     const y = Math.random() * (window.innerHeight - no.offsetHeight);
@@ -135,15 +303,19 @@
     confeti();
   });
 
+  // Lluvia de cuadritos rojos, blancos y amarillos
   function confeti() {
-    const colores = ['#fce300', '#e11', '#fff'];
-    for (let i = 0; i < 120; i++) {
+    const colores = ['#db2422', '#ffffff', '#f2e600', '#db2422'];
+    for (let i = 0; i < 140; i++) {
       const c = document.createElement('div');
       c.className = 'confeti';
+      const t = 6 + Math.random() * 9;
+      c.style.width = t + 'px';
+      c.style.height = t + 'px';
       c.style.left = Math.random() * 100 + 'vw';
       c.style.background = colores[i % colores.length];
-      c.style.animationDuration = 2 + Math.random() * 3 + 's';
-      c.style.animationDelay = Math.random() * 1.5 + 's';
+      c.style.animationDuration = 2.5 + Math.random() * 3 + 's';
+      c.style.animationDelay = Math.random() * 2 + 's';
       document.body.appendChild(c);
     }
   }
