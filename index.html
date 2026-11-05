@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Feliz cumpleaños! |-/</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    overflow: hidden;
+    background: #111;
+    color: #fce300;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .card { position: relative; z-index: 1; padding: 20px; }
+  .logo { font-size: 2.2rem; font-weight: bold; color: #e11; letter-spacing: 4px; }
+  h1 {
+    font-size: clamp(2.4rem, 8vw, 5rem);
+    margin: 10px 0 30px;
+    text-shadow: 4px 4px 0 #e11;
+  }
+  p.pregunta { font-size: 1.6rem; color: #fff; margin-bottom: 25px; }
+
+  button {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: .4em 1.2em;
+    border: 3px solid #fce300;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform .15s, font-size .2s;
+  }
+  .foto {
+    display: block;
+    margin: 0 auto 15px;
+    max-width: min(85vw, 380px);
+    max-height: 40vh;
+    border-radius: 12px;
+    border: 4px solid #fce300;
+    box-shadow: 6px 6px 0 #e11;
+  }
+  .galeria { display: flex; gap: 14px; justify-content: center; margin-bottom: 15px; }
+  .galeria .foto {
+    margin: 0;
+    width: min(27vw, 190px, 26vh);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 #e11;
+  }
+  .galeria .foto:nth-child(1) { transform: rotate(-4deg); }
+  .galeria .foto:nth-child(3) { transform: rotate(4deg); }
+  #regalo .foto { max-height: 60vh; max-width: min(90vw, 450px); }
+  .falta {
+    margin: 0 auto 15px;
+    padding: 30px 20px;
+    max-width: 320px;
+    border: 3px dashed #fce300;
+    border-radius: 12px;
+    color: #fff;
+  }
+  #si { background: #fce300; color: #111; margin-right: 15px; }
+  #si:hover { transform: scale(1.1); }
+  #no { background: #e11; color: #fff; border-color: #e11; }
+  #no.suelto { position: fixed; z-index: 5; transition: left .2s, top .2s; }
+
+  #regalo { display: none; }
+  #regalo h2 { font-size: 2rem; margin-top: 10px; text-shadow: 3px 3px 0 #e11; }
+  #regalo p { color: #fff; font-size: 1.2rem; margin-top: 8px; }
+
+  .confeti {
+    position: fixed; top: -20px; width: 10px; height: 16px; z-index: 10;
+    animation: caer linear forwards;
+  }
+  @keyframes caer { to { transform: translateY(110vh) rotate(720deg); } }
+</style>
+<script>
+  // Si todavía no está la foto, muestra un aviso con el nombre que debe tener
+  function sinFoto(img, nombre) {
+    const aviso = document.createElement('div');
+    aviso.className = 'falta';
+    aviso.textContent = 'Aquí va tu foto: guárdala como ' + nombre + ' junto a este archivo';
+    img.replaceWith(aviso);
+  }
+</script>
+</head>
+<body>
+
+<div class="card" id="inicio">
+  <!-- Fotos del principio (en esta misma carpeta de Descargas) -->
+  <div class="galeria">
+    <img class="foto" src="joshler.jpg" alt="" onerror="sinFoto(this, 'joshler.jpg')">
+    <img class="foto" src="josh%20dun.jpg" alt="" onerror="sinFoto(this, 'josh dun.jpg')">
+    <img class="foto" src="descarga.jpg" alt="" onerror="sinFoto(this, 'descarga.jpg')">
+  </div>
+  <div class="logo">|-/</div>
+  <h1>Feliz cumpleañoooooos</h1>
+  <p class="pregunta">Quieres ver tu regalo?</p>
+  <button id="si">Sí</button>
+  <button id="no">No</button>
+</div>
+
+<div class="card" id="regalo">
+  <img class="foto" src="your%20yellow%20flowers%20by%20Twenty%20one%20pilots.jpg" alt="" onerror="sinFoto(this, 'your yellow flowers by Twenty one pilots.jpg')">
+  <h2>OAOAOAOA</h2>
+  <p>Que tengas un Feliz Cumpleaños Mafeeeer, que cumpla años la cumpleañera que hoy cumple años que hoy es su cumpleaños y que mas va a hacer que cumplir años</p>
+</div>
+
+<script>
+  const si = document.getElementById('si');
+  const no = document.getElementById('no');
+  const frases = ['¿Segura?', 'Piénsalo bien', 'Nop', 'Intenta otra vez', 'Ese no', 'Dale al otro', 'No se vale'];
+  let veces = 0;
+
+  no.addEventListener('click', () => {
+    veces++;
+    no.classList.add('suelto');
+    const x = Math.random() * (window.innerWidth - no.offsetWidth);
+    const y = Math.random() * (window.innerHeight - no.offsetHeight);
+    no.style.left = x + 'px';
+    no.style.top = y + 'px';
+    no.textContent = frases[veces % frases.length];
+    si.style.fontSize = Math.min(1.4 + veces * 0.35, 5.6) + 'rem';
+  });
+
+  si.addEventListener('click', () => {
+    document.getElementById('inicio').style.display = 'none';
+    no.style.display = 'none';
+    document.getElementById('regalo').style.display = 'block';
+    confeti();
+  });
+
+  function confeti() {
+    const colores = ['#fce300', '#e11', '#fff'];
+    for (let i = 0; i < 120; i++) {
+      const c = document.createElement('div');
+      c.className = 'confeti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colores[i % colores.length];
+      c.style.animationDuration = 2 + Math.random() * 3 + 's';
+      c.style.animationDelay = Math.random() * 1.5 + 's';
+      document.body.appendChild(c);
+    }
+  }
+</script>
+</body>
+</html>
